@@ -16,5 +16,5 @@ package com.romellfudi.ussdlibrary;
 
 public interface USSDInterface {
     void sendData(String text);
-    void stopRunning()
+    void stopRunning();
 }

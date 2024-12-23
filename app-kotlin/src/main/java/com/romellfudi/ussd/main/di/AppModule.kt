@@ -7,6 +7,7 @@
 package com.romellfudi.ussd.main.di
 
 import android.os.Handler
+import android.os.Looper
 import com.romellfudi.ussd.main.entity.CallViewModel
 import com.romellfudi.ussd.main.interactor.MainFragmentInteractor
 import com.romellfudi.ussd.main.interactor.MainFragmentMVPInteractor
@@ -16,6 +17,7 @@ import com.romellfudi.ussd.main.view.MainFragmentMVPView
 import com.romellfudi.ussdlibrary.USSDApi
 import com.romellfudi.ussdlibrary.USSDController
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.module
 
 /**
@@ -26,11 +28,11 @@ import org.koin.dsl.module
  * @since 1.0.a 27/09/2018
  */
 val appModule = module {
-    viewModel { CallViewModel() }
+    viewModelOf(::CallViewModel)// { CallViewModel() }
     single<USSDApi> { USSDController }
     single<MainFragmentMVPPresenter<MainFragmentMVPView, MainFragmentMVPInteractor>> { (view: MainFragmentMVPView) ->
         MainFragmentPresenter(view, get())
     }
-    single { Handler() }
+    single { Handler(Looper.getMainLooper()) }
     single<MainFragmentMVPInteractor> { MainFragmentInteractor(get()) }
 }

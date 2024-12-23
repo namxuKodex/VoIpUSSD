@@ -14,5 +14,5 @@
     <color name="colorSecondaryLight">#ffddc1</color>
     <color name="colorSecondaryDark">#BA8CCB</color>
     <color name="colorOnSecondary">#212121</color>
-
+    <color name="blue_background">#FFFFFF</color>
 </resources>

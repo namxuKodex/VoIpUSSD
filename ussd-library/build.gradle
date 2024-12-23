@@ -1,40 +1,11 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'org.jetbrains.dokka'
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'ussd-library'
-
-    publishedGroupId = 'com.romellfudi.ussdlibrary'
-    libraryName = 'VoIpUSSD'
-    artifact = 'ussd-library'
-
-    libraryDescription = 'Android library To comunicate with ussd display'
-
-    siteUrl = 'https://romellfudi.github.io/VoIpUSSDSample'
-    gitUrl = 'https://romellfudi.github.io/VoIpUSSDSample.git'
-
-    libraryVersion = '1.4.a'
-
-    developerId = 'romellfudi'
-    developerName = 'Romell Dominguez'
-    developerEmail = 'romllz489@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdk 35
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 1
-        versionName libraryVersion
+        minSdk 23
+        targetSdk 35
     }
     buildTypes {
         release {
@@ -46,44 +17,20 @@ android {
         unitTests.returnDefaultValues = true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
+    namespace = "com.romellfudi.ussdlibrary"
 }
-
-tasks.dokkaHtml.configure {
-    outputDirectory.set(file("../documentation"))
-}
-
-tasks.dokkaJavadoc.configure {
-    outputDirectory.set(file("../documentation/javadoc"))
-}
-
-tasks.dokkaGfm.configure {
-    outputDirectory.set(file("../documentation/gfm"))
-}
-
-tasks.withType(dokkaHtml.getClass()).configureEach {
-    pluginsMapConfiguration.set(
-            ["org.jetbrains.dokka.base.DokkaBase": """{ "separateInheritedMembers": true}"""]
-    )
-}
-
-//dokkaHtml.configure {
-//    dokkaSourceSets {
-//        named("app") {
-//            skipDeprecated.set(true)
-//        }
-//    }
-//}
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:30.0.0'
-    testImplementation 'junit:junit:4.12'
+//    implementation 'com.android.support:appcompat-v7:30.0.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-all:1.10.19'
-    testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.2'
 }
 
-apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_bintray.gradle'
-apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_install.gradle'
+//apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_bintray.gradle'
+//apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_install.gradle'

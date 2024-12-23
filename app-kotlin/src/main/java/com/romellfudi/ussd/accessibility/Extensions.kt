@@ -10,7 +10,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
-import com.romellfudi.ussd.R
 
 //import com.rbddevs.splashy.Splashy
 
@@ -32,8 +31,8 @@ import com.romellfudi.ussd.R
 @RequiresApi(Build.VERSION_CODES.N)
 inline fun <reified T : Activity> Activity.goActivity(extras: HashMap<String, String>? = null) {
     intent = Intent(this, T::class.java).apply {
-        extras?.forEach { key, value -> putExtra(key, value) }
+        extras?.forEach { (key, value) -> putExtra(key, value) }
     }
     startActivity(intent)
-    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
+//    overridePendingTransition(R.anim.slide_from_right, R.anim.slide_to_left)
 }

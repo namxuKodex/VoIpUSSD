@@ -77,7 +77,7 @@ public class USSDController implements USSDInterface, USSDApi {
      * @param map             Map of Login and problem messages
      * @param callbackInvoke  a callback object from return answer
      */
-    public void callUSSDInvoke(String ussdPhoneNumber, HashMap<String, HashSet<String>> map, CallbackInvoke callbackInvoke) {        
+    public void callUSSDInvoke(String ussdPhoneNumber, HashMap<String, HashSet<String>> map, CallbackInvoke callbackInvoke) {
         callUSSDInvoke(ussdPhoneNumber, 0, map, callbackInvoke);
     }
 
@@ -89,7 +89,7 @@ public class USSDController implements USSDInterface, USSDApi {
      * @param map             Map of Login and problem messages
      * @param callbackInvoke  a callback object from return answer
      */
-    public void callUSSDOverlayInvoke(String ussdPhoneNumber, HashMap<String, HashSet<String>> map, CallbackInvoke callbackInvoke) {        
+    public void callUSSDOverlayInvoke(String ussdPhoneNumber, HashMap<String, HashSet<String>> map, CallbackInvoke callbackInvoke) {
         callUSSDOverlayInvoke(ussdPhoneNumber, 0, map, callbackInvoke);
     }
 
@@ -103,7 +103,7 @@ public class USSDController implements USSDInterface, USSDApi {
      */
     @SuppressLint("MissingPermission")
     public void callUSSDInvoke(String ussdPhoneNumber, int simSlot, HashMap<String, HashSet<String>> map, CallbackInvoke callbackInvoke) {
-		send=false;
+        send = false;
         this.callbackInvoke = callbackInvoke;
         this.map = map;
         if (verifyAccesibilityAccess(context)) {
@@ -124,7 +124,7 @@ public class USSDController implements USSDInterface, USSDApi {
      */
     @SuppressLint("MissingPermission")
     public void callUSSDOverlayInvoke(String ussdPhoneNumber, int simSlot, HashMap<String, HashSet<String>> map, CallbackInvoke callbackInvoke) {
-		send=false;
+        send = false;
         this.callbackInvoke = callbackInvoke;
         this.map = map;
         if (verifyAccesibilityAccess(context) && verifyOverLay(context)) {
@@ -199,6 +199,7 @@ public class USSDController implements USSDInterface, USSDApi {
 
     /**
      * Send a string by using inputText from USSD Dialog
+     *
      * @param text string which contains info to be sent
      */
     public void sendData(String text) {
@@ -212,7 +213,7 @@ public class USSDController implements USSDInterface, USSDApi {
     /**
      * Send a string by using  the inputText from USSD Dialog
      *
-     * @param text string which contains info to be sent
+     * @param text            string which contains info to be sent
      * @param callbackMessage response callback
      */
     public void send(String text, CallbackMessage callbackMessage) {

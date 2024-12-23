@@ -45,10 +45,10 @@ class App : Application() {
         Timber.d("Init Application\nSetting Koin Architecture...")
 
         startKoin {
-            if (BuildConfig.DEBUG) {
-                L.DBG = true
-                printLogger()
-            }
+//            if (BuildConfig.DEBUG) {
+            L.DBG = true
+            printLogger()
+//            }
             androidContext(this@App)
             modules(
                 appModule,

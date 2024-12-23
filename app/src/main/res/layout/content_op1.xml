@@ -5,7 +5,9 @@
   -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="viewModel"
             type="com.romellfudi.ussd.main.DaoViewModel" />
@@ -84,9 +86,9 @@
                 android:id="@+id/result"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
+                android:text="@={viewModel.result}"
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                android:textSize="16sp"
-                android:text="@={viewModel.result}" />
+                android:textSize="16sp" />
         </ScrollView>
     </RelativeLayout>
 </layout>

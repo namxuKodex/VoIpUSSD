@@ -11,4 +11,13 @@
     <item name="ic_menu_manage" type="drawable">@android:drawable/ic_menu_manage</item>
     <item name="ic_menu_share" type="drawable">@android:drawable/ic_menu_share</item>
     <item name="ic_menu_send" type="drawable">@android:drawable/ic_menu_send</item>
+
+    <color name="colorPrimary">#496471</color>
+    <color name="colorPrimaryDark">#496471</color>
+    <color name="colorAccent">#F9AA33</color>
+    <color name="white">#ffffff</color>
+    <color name="two">#222222</color>
+    <color name="black">#000000</color>
+    <color name="five">#555555</color>
+    <color name="eight">#888888</color>
 </resources>

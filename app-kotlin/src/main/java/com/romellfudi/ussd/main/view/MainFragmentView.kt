@@ -6,7 +6,6 @@
 
 package com.romellfudi.ussd.main.view
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.os.Bundle
 import android.os.Handler
@@ -27,12 +26,13 @@ import com.romellfudi.ussd.main.presenter.MainFragmentMVPPresenter
 import com.romellfudi.ussd.main.statehood.UssdState
 import com.romellfudi.ussdlibrary.OverlayShowingService
 import com.romellfudi.ussdlibrary.USSDApi
-import com.romellfudi.ussdlibrary.USSDController
-import kotlinx.android.synthetic.main.call_fragment.*
+//import kotlinx.android.synthetic.main.call_fragment.*
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import org.koin.core.KoinComponent
-import org.koin.core.inject
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
+//import org.koin.core.KoinComponent
+//import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
 import timber.log.Timber
 
@@ -52,7 +52,7 @@ class MainFragmentView : Fragment(), MainFragmentMVPView, KoinComponent {
     override val ussdApi: USSDApi by inject()
 
     override val ussdNumber: String
-        get() = phone?.text.toString().trim { it <= ' ' }
+        get() = binding.phone.text.toString().trim { it <= ' ' }
 
     override val hasAllowOverlay: Boolean
         get() = ussdApi.verifyOverLay(requireContext())
@@ -67,28 +67,33 @@ class MainFragmentView : Fragment(), MainFragmentMVPView, KoinComponent {
     private val loading by lazy { getString(R.string.loading_data) }
 
     private val dialog by lazy { getString(R.string.splash_dialog) }
-
+    private lateinit var binding: CallFragmentBinding
     override fun onCreateView(
         inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = CallFragmentBinding.inflate(inflater, container, false).apply {
+        container: ViewGroup?, savedInstanceState: Bundle?,
+    ): View {
+        binding = CallFragmentBinding.inflate(inflater, container, false).apply {
             lifecycleOwner = viewLifecycleOwner
             viewModel = callViewModel
             mainFragment = this@MainFragmentView
-        }.run { root }
+        }//.run { root }
+        return binding.root
+    }
 
     override fun dialUp() = requestPermissions(
-            permissionService.getPermissions(activity as Activity),4321 )
+        permissionService.getPermissions(activity as Activity), 4321
+    )
 
+    @Deprecated("Deprecated in Java")
     override fun onRequestPermissionsResult(
         requestCode: Int, permissions: Array<String>,
-        grantResults: IntArray
+        grantResults: IntArray,
     ) = permissionService.handler(callback, grantResults, permissions)
 
     private val callback = object : PermissionService.Callback() {
-        override fun onResponse(permissions: List<String>?) {
-            permissions?.toMutableList()?.apply {
-                removeAll(remainingPermissions)
+        override fun onResponse(refusePermissions: List<String>?) {
+            refusePermissions?.toMutableList()?.apply {
+                removeAll(remainingPermissions.toSet())
                 if (isNotEmpty()) {
                     showMessage(refuses)
                     return@onResponse
@@ -101,7 +106,10 @@ class MainFragmentView : Fragment(), MainFragmentMVPView, KoinComponent {
                     if (ussdApi.verifyAccessibilityAccess(it)) {
                         when (callViewModel.dialUpType.value) {
                             getString(R.string.custom) -> mainFragmentMVPPresenter.callOverlay(it)
-                            getString(R.string.splash) -> mainFragmentMVPPresenter.callSplashOverlay(it)
+                            getString(R.string.splash) -> mainFragmentMVPPresenter.callSplashOverlay(
+                                it
+                            )
+
                             else -> mainFragmentMVPPresenter.call(it)
                         }
                     }
@@ -111,8 +119,10 @@ class MainFragmentView : Fragment(), MainFragmentMVPView, KoinComponent {
     }
 
     fun showMessage(message: String) =
-        Snackbar.make( requireActivity().findViewById(android.R.id.content),
-            message, Snackbar.LENGTH_SHORT ).show()
+        Snackbar.make(
+            requireActivity().findViewById(android.R.id.content),
+            message, Snackbar.LENGTH_SHORT
+        ).show()
 
     override fun showOverlay() {
         Timber.i("START OVERLAY DIALOG")
@@ -129,7 +139,7 @@ class MainFragmentView : Fragment(), MainFragmentMVPView, KoinComponent {
 
     override fun showResult(result: String) {
         callViewModel.result.postValue(result)
-        Timber.d("$result")
+        Timber.d(result)
     }
 
     override fun dismissOverlay() {

@@ -66,15 +66,15 @@
                     android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:background="#CBCCB8D3"
                     android:inputType="phone"
                     android:singleLine="true"
-                    android:background="#CBCCB8D3"
+                    android:text="@{viewModel.number}"
                     android:textColor="#CB9509C6"
                     android:textColorHint="#CB764D85"
-                    android:text="@{viewModel.number}"
-                    android:layout_margin="5dp"
-                    tools:text="@tools:sample/us_phones"
-                    android:textSize="16sp" />
+                    android:textSize="16sp"
+                    tools:text="@tools:sample/us_phones" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <View

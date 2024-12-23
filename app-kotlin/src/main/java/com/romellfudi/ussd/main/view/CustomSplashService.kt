@@ -17,6 +17,7 @@ import android.graphics.PixelFormat
 import android.graphics.Point
 import android.os.Build
 import android.os.Handler
+import android.os.Looper
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.WindowManager
@@ -72,7 +73,7 @@ class CustomSplashService : LifecycleService() {
         val progressTV = TextView(this).apply {
             text = "WAITING ..."
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 20F)
-            setTextColor(ContextCompat.getColor(this@CustomSplashService, R.color.white))
+            setTextColor(ContextCompat.getColor(this@CustomSplashService, android.R.color.white))
             setPadding(dpAsPixels, 0, dpAsPixels, 0)
         }
         progressMessage.observe(this, Observer {
@@ -85,29 +86,37 @@ class CustomSplashService : LifecycleService() {
         val textView = TextView(this).apply {
             text = message
             setTextSize(TypedValue.COMPLEX_UNIT_SP, 16F)
-            setTextColor(ContextCompat.getColor(this@CustomSplashService, R.color.white))
+            setTextColor(ContextCompat.getColor(this@CustomSplashService, android.R.color.white))
             setPadding(dpAsPixels, dpAsPixels, dpAsPixels, dpAsPixels)
         }
 
         layout = LinearLayout(this).apply {
             setBackgroundColor(R.color.blue_background)
             orientation = LinearLayout.VERTICAL
-            addView(lottie, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0).apply {
-                gravity = Gravity.CENTER
-                weight = .7f
-            })
-            addView(progressTV, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0).apply {
-                gravity = Gravity.CENTER
-                setHorizontalGravity(Gravity.CENTER_HORIZONTAL)
-                weight = .1f
-            })
-            addView(textView, LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0).apply {
-                gravity = Gravity.CENTER
-                weight = .2f
-            })
+            addView(
+                lottie,
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0).apply {
+                    gravity = Gravity.CENTER
+                    weight = .7f
+                })
+            addView(
+                progressTV,
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0).apply {
+                    gravity = Gravity.CENTER
+                    setHorizontalGravity(Gravity.CENTER_HORIZONTAL)
+                    weight = .1f
+                })
+            addView(
+                textView,
+                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 0).apply {
+                    gravity = Gravity.CENTER
+                    weight = .2f
+                })
         }
 
-        wm.addView(layout, WindowManager.LayoutParams(WindowManager.LayoutParams.MATCH_PARENT,
+        wm.addView(
+            layout, WindowManager.LayoutParams(
+                WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
                 when {
                     Build.VERSION.SDK_INT >= Build.VERSION_CODES.O -> WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
@@ -115,13 +124,15 @@ class CustomSplashService : LifecycleService() {
                 },
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
                         or WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL,
-                PixelFormat.RGB_565))
+                PixelFormat.RGB_565
+            )
+        )
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Handler().postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             layout?.let {
                 wm.removeView(layout)
                 layout = null

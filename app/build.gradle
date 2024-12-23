@@ -1,8 +1,9 @@
-apply plugin: 'com.android.application'
 
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 apply plugin: 'com.google.gms.google-services'
-apply plugin: 'io.fabric'
-ext.enableCrashlytics = true
+//apply plugin: 'io.fabric'
+//ext.enableCrashlytics = true
 
 def keystorePropertiesFile = rootProject.file("app.properties")
 def attrs = new Properties()
@@ -17,12 +18,11 @@ android {
             storePassword attrs['password']
         }
     }
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdk 35
     defaultConfig {
         applicationId "com.romellfudi.ussd"
-        minSdkVersion 23
-        targetSdkVersion 29
+        minSdk 23
+        targetSdk 35
         versionCode 12
         versionName "1.12.a"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -59,24 +59,39 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
+    }
+    namespace = "com.romellfudi.ussd"
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_21.toString()
     }
 }
 
-dependencies {
-    implementation 'androidx.appcompat:appcompat:1.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.romellfudi.permission:fudi-permission:2.0.a'
-    implementation 'com.rbddevs.splashy:splashy:1.2.0'
-    implementation 'com.google.android.play:core:1.6.4'
-    implementation 'com.google.firebase:firebase-analytics:17.2.3'
+dependencies {//JavaVersion.VERSION_21
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.google.android.material:material:1.12.0'
+//    implementation 'com.romellfudi.permission:fudi-permission:2.0.a'
+    implementation 'com.github.romellfudi.FudiPermission:kotlin-fudi-permission:2.0.b'
+//    implementation 'com.romellfudi.permission:fudi-permission:1.0.a'
+//    implementation 'com.rbddevs.splashy:splashy:1.3.0'//libs.versions.toml
+//    implementation 'com.google.android.play:core:1.10.3'
+    // Make sure you also include that repository in your project's build.gradle file.
+    implementation("com.google.android.play:app-update:2.1.0")
+
+    // For Kotlin users, also import the Kotlin extensions library for Play In-App Update:
+    implementation("com.google.android.play:app-update-ktx:2.1.0")
+
+
+    implementation 'com.google.firebase:firebase-analytics:22.1.2'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation project(':ussd-library')
 
-    implementation 'com.google.dagger:dagger:2.16'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
+    implementation 'com.google.dagger:dagger:2.52'
+    implementation libs.androidx.core.ktx
+    implementation libs.lifecycle.viewmodel.ktx
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.52'
 
-    implementation 'android.arch.lifecycle:extensions:1.0.0'
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 }

@@ -1,43 +1,16 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'com.github.dcendents.android-maven'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'androidx.navigation.safeargs'
-apply plugin: 'org.jetbrains.dokka'
-
-ext {
-    bintrayRepo = 'maven'
-    bintrayName = 'kotlin-ussd-library'
-
-    publishedGroupId = 'com.romellfudi.ussdlibrary'
-    libraryName = 'VoIpUSSD'
-    artifact = 'kotlin-ussd-library'
-
-    libraryDescription = 'Android library To comunicate with ussd display'
-
-    siteUrl = 'https://romellfudi.github.io/VoIpUSSD'
-    gitUrl = 'https://github.com/romellfudi/VoIpUSSD.git'
-
-    libraryVersion = '1.4.a'
-
-    developerId = 'romellfudi'
-    developerName = 'Romell Dominguez'
-    developerEmail = 'romllz489@gmail.com'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["GPL-3.0"]
-}
+//apply plugin: 'org.jetbrains.dokka'
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdk 35
 
     defaultConfig {
-        minSdkVersion 23
-        targetSdkVersion 30
-        versionCode 1
-        versionName libraryVersion
+        minSdk 23
+        targetSdk 35
     }
     buildTypes {
         release {
@@ -45,64 +18,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    testOptions{
+    testOptions {
         unitTests.returnDefaultValues = true
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_21
+        targetCompatibility JavaVersion.VERSION_21
     }
-}
-
-tasks.dokkaHtml.configure {
-    outputDirectory.set(file("../docs"))
-}
-
-tasks.dokkaJavadoc.configure {
-    outputDirectory.set(file("../javadoc"))
-}
-
-tasks.dokkaGfm.configure {
-    outputDirectory.set(file("../gfm"))
-}
-
-tasks.withType(dokkaHtml.getClass()).configureEach {
-    pluginsMapConfiguration.set(
-            ["org.jetbrains.dokka.base.DokkaBase": """{ "separateInheritedMembers": true}"""]
-    )
-}
-
-dokkaHtml.configure {
-    dokkaSourceSets {
-        named("main") {
-            skipDeprecated.set(true)
-            includeNonPublic.set(false)
-            noAndroidSdkLink.set(true)
-        }
-    }
-}
-
-repositories {
-    mavenCentral()
+    namespace = "com.romellfudi.ussdlibrary"
 }
 
 dependencies {
-    implementation 'com.android.support:appcompat-v7:30.0.0'
-    implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+//    implementation 'com.android.support:appcompat-v7:30.0.0'
+    implementation 'androidx.appcompat:appcompat:1.7.0'
+    implementation 'com.jakewharton.timber:timber:5.0.1'
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-all:1.10.19'
-    testImplementation 'org.powermock:powermock-module-junit4:1.6.2'
+    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
     testImplementation 'com.nhaarman.mockitokotlin2:mockito-kotlin:2.1.0'
     testImplementation 'org.powermock:powermock-api-mockito:1.6.2'
-    testImplementation 'io.mockk:mockk:1.9.3'
+    testImplementation 'io.mockk:mockk:1.13.5'
 }
-
-apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_bintray.gradle'
-apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_install.gradle'
-
+//
+//apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_bintray.gradle'
+//apply from: 'https://raw.githubusercontent.com/romellfudi/assets/bintray/artifactory_install.gradle'
+//

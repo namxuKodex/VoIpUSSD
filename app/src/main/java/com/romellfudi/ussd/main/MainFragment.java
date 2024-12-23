@@ -30,10 +30,9 @@ import com.romellfudi.ussdlibrary.USSDApi;
 import com.romellfudi.ussdlibrary.USSDController;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Objects;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -59,18 +58,18 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        ((App) getActivity().getApplicationContext()).getAppComponent().inject(this);
+        ((App) requireActivity().getApplicationContext()).getAppComponent().inject(this);
         super.onCreate(savedInstanceState);
-        new PermissionService(getActivity()).request(callback);
-        mViewModel = ViewModelProviders.of(getActivity()).get(DaoViewModel.class);
+        PermissionService.INSTANCE.request(requireActivity(),callback);
+//        new PermissionService(requireActivity()).request(callback);
+        mViewModel = ViewModelProviders.of(requireActivity()).get(DaoViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, final Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.content_op1, container, false);
-        Objects.requireNonNull(getActivity());
         binding.setViewModel(mViewModel);
-        binding.setLifecycleOwner(getActivity());
+        binding.setLifecycleOwner(requireActivity());
         setHasOptionsMenu(false);
 
         binding.btn1.setOnClickListener(view -> {
@@ -110,8 +109,8 @@ public class MainFragment extends Fragment {
         });
 
         binding.btn2.setOnClickListener(view -> {
-            if (USSDController.verifyOverLay(getActivity())) {
-                final Intent svc = new Intent(getActivity(), OverlayShowingService.class);
+            if (USSDController.verifyOverLay(requireActivity())) {
+                final Intent svc = new Intent(requireActivity(), OverlayShowingService.class);
                 svc.putExtra(OverlayShowingService.EXTRA, getString(R.string.process));
                 pendingServiceIntent(svc);
                 callOverlay(svc);
@@ -119,15 +118,15 @@ public class MainFragment extends Fragment {
         });
 
         binding.btn4.setOnClickListener(view -> {
-            if (USSDController.verifyOverLay(getActivity())) {
-                final Intent svc = new Intent(getActivity(), SplashLoadingService.class);
+            if (USSDController.verifyOverLay(requireActivity())) {
+                final Intent svc = new Intent(requireActivity(), SplashLoadingService.class);
                 pendingServiceIntent(svc);
                 callOverlay(svc);
             }
         });
 
         binding.btn3.setOnClickListener(view ->
-                USSDController.verifyAccesibilityAccess(getActivity()));
+                USSDController.verifyAccesibilityAccess(requireActivity()));
 
         return binding.getRoot();
     }
@@ -150,7 +149,7 @@ public class MainFragment extends Fragment {
                         ussdApi.send("1", message3 -> {
                             Timber.i(message3);
                             binding.result.append("\n-\n" + message3);
-                            getActivity().stopService(overlayDialogService);
+                            requireActivity().stopService(overlayDialogService);
                             Timber.i("successful");
                         });
                     });
@@ -162,16 +161,16 @@ public class MainFragment extends Fragment {
             public void over(String message) {
                 Timber.i(message);
                 binding.result.append("\n-\n" + message);
-                getActivity().stopService(overlayDialogService);
+                requireActivity().stopService(overlayDialogService);
                 Timber.i("STOP OVERLAY DIALOG");
             }
         });
     }
 
     private void pendingServiceIntent(Intent overlayService) {
-        getActivity().startService(overlayService);
+        requireActivity().startService(overlayService);
         Timber.i(getString(R.string.overlayDialog));
-        new Handler().postDelayed(() -> getActivity().stopService(overlayService), 12000);
+        new Handler().postDelayed(() -> requireActivity().stopService(overlayService), 12000);
         binding.result.setText("");
     }
 
@@ -179,13 +178,18 @@ public class MainFragment extends Fragment {
         return binding.phone.getText().toString().trim();
     }
 
-    private PermissionService.Callback callback = new PermissionService.Callback() {
+    private final PermissionService.Callback callback = new PermissionService.Callback() {
+//        @Override
+//        public void onResponse(@Nullable List<String> list) {
+//
+//        }
+
         @Override
-        public void onResponse(ArrayList<String> refusePermissions) {
-            if (refusePermissions != null) {
+        public void onResponse(@Nullable List<String> list) {
+            if (list != null) {
                 Toast.makeText(getContext(),
                         getString(R.string.refuse_permissions), Toast.LENGTH_SHORT).show();
-                getActivity().finish();
+                requireActivity().finish();
             }
         }
     };
@@ -194,7 +198,8 @@ public class MainFragment extends Fragment {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         Timber.i(MessageFormat.format(getString(R.string.primissionsLogFormat), permissions, grantResults));
-        callback.handler(permissions, grantResults);
+//        callback.handler(permissions, grantResults);
+//        callback.onResponse(grantResults.);
     }
 }
 

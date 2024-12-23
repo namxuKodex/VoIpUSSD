@@ -17,5 +17,8 @@
     <string name="primissionsLogFormat">callback.handler::permissions:{0}:grantResults:{1}</string>
     <string name="process">PROCESS... USSD message</string>
     <string name="overlayDialog">START OVERLAY DIALOG</string>
-
+    <string name="splashy">Splashy</string>
+    <string name="splashy_subtitle">Splash screen made easy</string>
+    <string name="logo">Logo</string>
+    <string name="background">background</string>
 </resources>

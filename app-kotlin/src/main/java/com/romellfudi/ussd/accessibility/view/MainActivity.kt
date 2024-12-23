@@ -6,10 +6,11 @@
 
 package com.romellfudi.ussd.accessibility.view
 
+//import org.koin.core.KoinComponent
+//import org.koin.core.inject
 import android.annotation.SuppressLint
 import android.content.IntentSender.SendIntentException
 import android.os.Bundle
-import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
@@ -20,14 +21,11 @@ import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
-import com.romellfudi.permission.PermissionService
 import com.romellfudi.ussd.R
 import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import org.koin.core.KoinComponent
-import org.koin.core.inject
-import org.koin.core.parameter.parametersOf
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.inject
 
 /**
  * Main Activity
@@ -106,6 +104,10 @@ class MainActivity : AppCompatActivity(), KoinComponent,
         }
     }
 
-    override fun onBackPressed() = finish()
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
 
 }
